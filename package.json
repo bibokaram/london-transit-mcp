@@ -1,7 +1,7 @@
 {
   "name": "london-transit-mcp",
   "version": "0.1.0",
-  "description": "London public transport for AI assistants: an MCP server and departure-board web app over the TfL Unified API and Realtime Trains.",
+  "description": "London public transport for AI assistants: an MCP server over the TfL Unified API and Realtime Trains.",
   "license": "MIT",
   "keywords": ["mcp", "model-context-protocol", "tfl", "london", "transport", "national-rail"],
   "private": true,

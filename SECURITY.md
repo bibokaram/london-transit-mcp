@@ -15,8 +15,7 @@ and change the saved places, and spend the deployment's TfL and Realtime Trains 
 - Changing `MCP_SECRET` revokes every client and token.
 - `DATA_DIR/owner.json` holds saved places, which can include a home address. It is written with mode 600; keep the
   directory off any shared or public path.
-- The web app and its `/api` endpoints are public and unauthenticated by design. They expose Underground line status and
-  departures only, and they spend your TfL allowance.
+- Nothing but the login page and the OAuth endpoints answers without a token.
 
 The README's "Login and security" section describes the OAuth implementation and its known limits, including that
 used authorization codes and refresh tokens are remembered in memory only.

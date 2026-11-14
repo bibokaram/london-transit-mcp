@@ -339,7 +339,7 @@ describe('existing data through MCP', () => {
     expect((await call('live_departures', { stop: 'nowhere at all' })).structuredContent).toMatchObject({ status: 'stop_not_found', arrivals: [] });
   });
 
-  it('filters departures and shares the existing app cache', async () => {
+  it('filters departures and serves a repeat from the cache', async () => {
     const { call, app, tfl } = setup({
       [`/StopPoint/${FROM}`]: { body: { id: FROM, lines: [{ id: 'victoria' }] } },
       [`/StopPoint/${FROM}/Arrivals`]: { body: [
@@ -347,7 +347,7 @@ describe('existing data through MCP', () => {
         prediction({ platformName: 'Southbound - Platform 1', expectedArrival: '2026-11-10T08:01:00Z' }),
       ] },
     });
-    await app.request(`/api/arrivals?stop=${FROM}`);
+    await call('live_departures', { stop: FROM });
     const count = tfl.calls.length;
     const data = (await call('live_departures', { stop: FROM, direction: 'Northbound', limit: 1 })).structuredContent;
     expect(data.arrivals).toHaveLength(1);

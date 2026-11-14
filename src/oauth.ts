@@ -212,7 +212,7 @@ function loginPage(options: { client: string; host: string; request: string; err
 export function createOAuthRoutes(auth: OAuth): Hono {
   const app = new Hono();
 
-  // Scoped paths: this app is mounted at the root, so '*' would also cover the web app.
+  // Scoped paths: this app is mounted at the root, so '*' would also cover every other route.
   for (const path of ['/oauth/*', '/.well-known/*']) {
     app.use(path, async (context, next) => {
       await next();
