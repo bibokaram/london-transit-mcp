@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Journey</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: var(--color-background-primary, #ffffff);
+    --bg-soft: var(--color-background-secondary, #f4f3ef);
+    --text: var(--color-text-primary, #1b1a17);
+    --muted: var(--color-text-secondary, #6b6962);
+    --line: var(--color-border-secondary, #e3e1da);
+    --warn-bg: var(--color-background-warning, #fdf3d7);
+    --warn-text: var(--color-text-warning, #6b4a00);
+    --bad-bg: var(--color-background-danger, #fde4e1);
+    --bad-text: var(--color-text-danger, #8a1c12);
+    --accent: var(--color-text-info, #0b57d0);
+    --radius: var(--border-radius-lg, 12px);
+    --font: var(--font-sans, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif);
+    --rail-ring: rgba(0, 0, 0, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --bg: var(--color-background-primary, #1f1e1b);
+    --bg-soft: var(--color-background-secondary, #2a2926);
+    --text: var(--color-text-primary, #f1efe8);
+    --muted: var(--color-text-secondary, #a8a59b);
+    --line: var(--color-border-secondary, #3b3934);
+    --warn-bg: var(--color-background-warning, #45360c);
+    --warn-text: var(--color-text-warning, #f4d77e);
+    --bad-bg: var(--color-background-danger, #4a1c17);
+    --bad-text: var(--color-text-danger, #f6b1a8);
+    --accent: var(--color-text-info, #8ab4f8);
+    --rail-ring: rgba(255, 255, 255, 0.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: var(--color-background-primary, #1f1e1b);
+      --bg-soft: var(--color-background-secondary, #2a2926);
+      --text: var(--color-text-primary, #f1efe8);
+      --muted: var(--color-text-secondary, #a8a59b);
+      --line: var(--color-border-secondary, #3b3934);
+      --warn-bg: var(--color-background-warning, #45360c);
+      --warn-text: var(--color-text-warning, #f4d77e);
+      --bad-bg: var(--color-background-danger, #4a1c17);
+      --bad-text: var(--color-text-danger, #f6b1a8);
+      --accent: var(--color-text-info, #8ab4f8);
+      --rail-ring: rgba(255, 255, 255, 0.45);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: transparent; }
+  body { font-family: var(--font); color: var(--text); font-size: 14px; line-height: 1.4; -webkit-font-smoothing: antialiased; }
+  #app { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; max-width: 640px; }
+  .eyebrow { color: var(--muted); font-size: 12px; letter-spacing: 0.02em; margin: 0 0 2px; }
+  h1 { font-size: 18px; line-height: 1.25; margin: 0; font-weight: 650; text-wrap: balance; }
+  h1 .arrow { color: var(--muted); font-weight: 400; padding: 0 2px; }
+  .tabs { display: flex; gap: 8px; margin: 14px 0 0; overflow-x: auto; padding-bottom: 2px; }
+  .tab { flex: 1 0 auto; min-width: 104px; text-align: left; font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; cursor: pointer; }
+  .tab[aria-selected="true"] { background: var(--bg-soft); border-color: var(--text); }
+  .tab:focus-visible, .button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .tab .mins { font-size: 17px; font-weight: 650; font-variant-numeric: tabular-nums; }
+  .tab .mins small { font-size: 12px; font-weight: 400; color: var(--muted); }
+  .tab .sub { display: block; color: var(--muted); font-size: 12px; white-space: nowrap; }
+  .dots { display: flex; gap: 3px; margin-top: 6px; }
+  .dots i { height: 5px; border-radius: 3px; min-width: 6px; box-shadow: 0 0 0 1px var(--rail-ring); }
+  .dots i.walk { box-shadow: none; background: repeating-linear-gradient(90deg, var(--muted) 0 2px, transparent 2px 5px); }
+  .summary { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin: 16px 0 4px; }
+  .clock { font-size: 26px; font-weight: 650; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+  .clock .to { color: var(--muted); font-weight: 400; padding: 0 4px; }
+  .facts { color: var(--muted); }
+  .leaves { margin-left: auto; font-weight: 600; white-space: nowrap; }
+  .notice { border-radius: 8px; padding: 8px 10px; margin: 10px 0 0; font-size: 13px; background: var(--warn-bg); color: var(--warn-text); }
+  .notice.bad { background: var(--bad-bg); color: var(--bad-text); }
+  .notice p { margin: 0; }
+  .notice p + p { margin-top: 6px; }
+  ol.legs { list-style: none; margin: 14px 0 0; padding: 0; }
+  .leg { display: grid; grid-template-columns: 44px 18px 1fr; column-gap: 8px; }
+  .leg .time { font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; padding-top: 1px; }
+  .leg .rail { position: relative; display: flex; justify-content: center; }
+  .leg .rail::before { content: ""; position: absolute; top: 3px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 3px solid var(--c, var(--muted)); z-index: 1; }
+  .leg .rail::after { content: ""; position: absolute; top: 12px; bottom: -3px; width: 6px; border-radius: 3px; background: var(--c, var(--muted)); box-shadow: 0 0 0 1px var(--rail-ring); }
+  .leg.walk .rail::after { width: 2px; box-shadow: none; background: repeating-linear-gradient(180deg, var(--muted) 0 3px, transparent 3px 7px); }
+  .leg.end .rail::after { display: none; }
+  .leg .body { padding-bottom: 16px; min-width: 0; }
+  .leg .stop { font-weight: 600; overflow-wrap: anywhere; }
+  .leg .ride { color: var(--muted); margin-top: 3px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; color: var(--text); font-weight: 550; }
+  .pill::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--c, var(--muted)); box-shadow: 0 0 0 1px var(--rail-ring); }
+  .badge { font-size: 12px; border-radius: 999px; padding: 1px 8px; background: var(--warn-bg); color: var(--warn-text); white-space: nowrap; }
+  .badge.bad { background: var(--bad-bg); color: var(--bad-text); }
+  .foot { display: flex; align-items: center; gap: 12px; margin-top: 2px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+  .foot .grow { flex: 1; min-width: 0; }
+  .button { font: inherit; font-size: 13px; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 5px 12px; cursor: pointer; white-space: nowrap; }
+  .button[disabled] { opacity: 0.5; cursor: default; }
+  .live { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; border-radius: 10px; padding: 10px 12px; margin: 14px 0 0; background: var(--bg-soft); }
+  .live.later { background: var(--warn-bg); color: var(--warn-text); }
+  .live strong { font-size: 15px; font-weight: 650; }
+  .live span { font-size: 13px; }
+  .leg.done { opacity: 0.45; }
+  .leg.now .stop::after { content: "now"; margin-left: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 999px; padding: 1px 7px; background: var(--text); color: var(--bg); vertical-align: 2px; }
+  .quiet { color: var(--muted); margin: 10px 0 0; }
+  ul.options { margin: 8px 0 0; padding-left: 18px; }
+  @media (prefers-reduced-motion: no-preference) { .tab { transition: background-color 120ms, border-color 120ms; } }
+</style>
+</head>
+<body>
+<div id="app" aria-live="polite"><p class="eyebrow">Journey</p><h1>Planning the route…</h1></div>
+<script>
+(function () {
+  'use strict';
+  var PROTOCOL = '2026-01-26';
+  var COLOURS = {
+    bakerloo: '#B36305', central: '#E32017', circle: '#FFD300', district: '#00782A', 'hammersmith-city': '#F3A9BB',
+    jubilee: '#A0A5A9', metropolitan: '#9B0056', northern: '#000000', piccadilly: '#003688', victoria: '#0098D4',
+    'waterloo-city': '#95CDBA', elizabeth: '#6950A1', dlr: '#00A4A7', tram: '#5FB526',
+    liberty: '#5D6061', lioness: '#FAA61A', mildmay: '#0077AD', suffragette: '#5BBD72', weaver: '#823A62', windrush: '#ED1B00',
+    'london-cable-car': '#E21836'
+  };
+  var MODE_COLOURS = {
+    tube: '#0019A8', 'elizabeth-line': '#6950A1', overground: '#EE7C0E', dlr: '#00A4A7', tram: '#5FB526',
+    'national-rail': '#2F4B8C', bus: '#DC241F', 'replacement-bus': '#DC241F', 'river-bus': '#00A0E2', 'cable-car': '#E21836', coach: '#F18F00'
+  };
+  var MODE_NAMES = {
+    tube: 'Tube', 'elizabeth-line': 'Elizabeth line', overground: 'Overground', dlr: 'DLR', tram: 'Tram',
+    'national-rail': 'National Rail', bus: 'Bus', 'replacement-bus': 'Replacement bus', 'river-bus': 'River bus',
+    'cable-car': 'Cable car', walking: 'Walk', cycle: 'Cycle', coach: 'Coach'
+  };
+
+  var root = document.getElementById('app');
+  var state = { data: null, args: null, label: null, again: null, selected: 0, busy: false, canCall: false, canTellModel: false, error: null };
+
+  // --- Host link: JSON-RPC over postMessage, as the MCP Apps specification defines it. ---
+  var pending = {};
+  var nextId = 1;
+  function post(message) { window.parent.postMessage(message, '*'); }
+  function request(method, params) {
+    var id = nextId++;
+    post({ jsonrpc: '2.0', id: id, method: method, params: params || {} });
+    return new Promise(function (resolve, reject) { pending[id] = { resolve: resolve, reject: reject }; });
+  }
+  function notify(method, params) { post({ jsonrpc: '2.0', method: method, params: params || {} }); }
+
+  window.addEventListener('message', function (event) {
+    if (event.source !== window.parent) return;
+    var message = event.data;
+    if (!message || message.jsonrpc !== '2.0') return;
+    if (message.method === undefined) {
+      var waiting = pending[message.id];
+      if (!waiting) return;
+      delete pending[message.id];
+      if (message.error) waiting.reject(message.error); else waiting.resolve(message.result);
+      return;
+    }
+    var params = message.params || {};
+    if (message.method === 'ui/notifications/tool-input') { state.args = params.arguments || {}; }
+    else if (message.method === 'ui/notifications/tool-result') { accept(params); }
+    else if (message.method === 'ui/notifications/tool-cancelled') { state.error = 'The request was cancelled.'; render(); }
+    else if (message.method === 'ui/notifications/host-context-changed') { applyContext(params); }
+    else if (message.id !== undefined) {
+      // ui/resource-teardown, ping and anything else that expects an answer.
+      post({ jsonrpc: '2.0', id: message.id, result: {} });
+    }
+  });
+
+  function applyContext(context) {
+    if (!context) return;
+    if (context.theme === 'dark' || context.theme === 'light') document.documentElement.setAttribute('data-theme', context.theme);
+    var variables = context.styles && context.styles.variables;
+    if (variables) Object.keys(variables).forEach(function (key) {
+      if (/^--[a-z0-9-]+$/.test(key) && typeof variables[key] === 'string') document.documentElement.style.setProperty(key, variables[key]);
+    });
+  }
+
+  function accept(result) {
+    state.busy = false;
+    var data = result && result.structuredContent;
+    if (!data && result && result.content) {
+      try { data = JSON.parse((result.content.filter(function (item) { return item.type === 'text'; })[0] || {}).text); } catch (error) { data = null; }
+    }
+    if (!data) { state.error = 'The journey could not be read.'; render(); return; }
+    // The journey ended or expired while the card was open: keep showing the last route, stop asking.
+    if ((data.status === 'not_tracking' || data.status === 'ended') && state.data) { state.label = null; state.data.tracking = null; state.args = null; render(); return; }
+    state.error = null;
+    state.data = data;
+    state.label = data.tracking && data.tracking.label ? data.tracking.label : null;
+    // A result can name the call that reproduces it (a journey built from legs is not a plan_journey query).
+    state.again = !state.label && data.refresh && data.refresh.tool ? { name: data.refresh.tool, arguments: data.refresh.arguments || {} } : null;
+    if (data.query && !state.label && !state.again) state.args = stripUndefined({ from: data.query.from, to: data.query.to, at: data.query.at, time_is: data.query.time_is, exclude_modes: data.query.exclude_modes, preference: data.query.preference });
+    if (!data.routes || state.selected >= data.routes.length) state.selected = 0;
+    render();
+  }
+  function stripUndefined(object) {
+    Object.keys(object).forEach(function (key) { if (object[key] === undefined || object[key] === null) delete object[key]; });
+    return object;
+  }
+
+  // --- Rendering. Every string from the server is set as text, never as markup. ---
+  function el(tag, attributes) {
+    var node = document.createElement(tag);
+    Object.keys(attributes || {}).forEach(function (key) {
+      if (key === 'text') node.textContent = attributes[key];
+      else if (key === 'style') node.style.cssText = attributes[key];
+      else if (key === 'on') Object.keys(attributes.on).forEach(function (name) { node.addEventListener(name, attributes.on[name]); });
+      else if (attributes[key] !== false && attributes[key] !== undefined) node.setAttribute(key, attributes[key] === true ? '' : attributes[key]);
+    });
+    for (var index = 2; index < arguments.length; index++) {
+      var child = arguments[index];
+      if (child === null || child === undefined || child === false) continue;
+      node.appendChild(typeof child === 'string' ? document.createTextNode(child) : child);
+    }
+    return node;
+  }
+  // TfL shouts geocoded addresses ("354 CAMBERWELL NEW ROAD, LONDON") and pads station names with their kind.
+  function tidy(name) {
+    var value = String(name || '').replace(/\s+((Rail|Underground|DLR)\s+)?Station$/i, '').replace(/\s+/g, ' ').trim();
+    if (/[A-Z]/.test(value) && value === value.toUpperCase() && value.length > 4) {
+      value = value.toLowerCase().replace(/(^|[\s\-(])([a-z])/g, function (all, lead, letter) { return lead + letter.toUpperCase(); });
+    }
+    return value;
+  }
+  function clock(iso) { return typeof iso === 'string' && iso.length >= 16 ? iso.slice(11, 16) : '--:--'; }
+  function colourOf(leg) {
+    var id = (leg.line_ids || [])[0];
+    return COLOURS[id] || MODE_COLOURS[leg.mode] || '';
+  }
+  function minutes(value) { return value === 1 ? '1 min' : value + ' min'; }
+  function dayLabel(iso) {
+    if (typeof iso !== 'string' || iso.length < 10) return '';
+    var date = new Date(iso.slice(0, 10) + 'T12:00:00Z');
+    return isNaN(date) ? '' : date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+  }
+  function leavesIn(iso) {
+    var gap = Math.round((Date.parse(iso) - Date.now()) / 60000);
+    if (isNaN(gap) || gap < -1 || gap > 180) return '';
+    if (gap <= 0) return 'Leaving now';
+    return 'Leave in ' + minutes(gap);
+  }
+  function statusFor(leg) {
+    var statuses = (state.data && state.data.line_status) || [];
+    for (var index = 0; index < statuses.length; index++) {
+      if ((leg.line_ids || []).indexOf(statuses[index].id) >= 0 && statuses[index].level !== 'good') return statuses[index];
+    }
+    return null;
+  }
+  function legLabel(leg) {
+    if (leg.mode === 'walking') return 'Walk';
+    var lines = (leg.lines || []).join(' / ');
+    var mode = MODE_NAMES[leg.mode] || leg.mode;
+    if (!lines) return mode;
+    return leg.mode === 'bus' || leg.mode === 'replacement-bus' ? mode + ' ' + lines : lines;
+  }
+  function endpointNames(data) {
+    var route = (data.routes || [])[0];
+    var resolved = data.resolved || {};
+    var label = function (end) { return end && end.saved_place ? end.saved_place.charAt(0).toUpperCase() + end.saved_place.slice(1) : ''; };
+    var from = label(resolved.from) || (resolved.from && resolved.from.name) || (route && route.legs[0] && route.legs[0].from) || (data.query && data.query.from) || 'Start';
+    var to = label(resolved.to) || (resolved.to && resolved.to.name) || (route && route.legs[route.legs.length - 1].to) || (data.query && data.query.to) || 'End';
+    var capital = function (value) { return value.charAt(0).toUpperCase() + value.slice(1); };
+    return { from: capital(tidy(from)), to: capital(tidy(to)) };
+  }
+
+  function header(data) {
+    var names = endpointNames(data);
+    return [
+      el('p', { class: 'eyebrow', text: 'Journey' }),
+      el('h1', {}, names.from, el('span', { class: 'arrow', text: ' → ' }), names.to)
+    ];
+  }
+
+  function tab(route, index) {
+    var dots = el('span', { class: 'dots', 'aria-hidden': 'true' });
+    route.legs.forEach(function (leg) {
+      dots.appendChild(el('i', { class: leg.mode === 'walking' ? 'walk' : '', style: 'flex:' + Math.max(1, leg.duration_minutes) + ' 1 0;' + (leg.mode === 'walking' ? '' : 'background:' + (colourOf(leg) || 'var(--muted)')) }));
+    });
+    var changes = route.changes === 0 ? 'Direct' : route.changes === 1 ? '1 change' : route.changes + ' changes';
+    return el('button', {
+      class: 'tab', role: 'tab', type: 'button', 'aria-selected': String(index === state.selected),
+      on: { click: function () { select(index); } }
+    },
+      el('span', { class: 'mins' }, String(route.duration_minutes), el('small', { text: ' min' })),
+      el('span', { class: 'sub', text: clock(route.departure) + ' · ' + changes }),
+      dots);
+  }
+
+  // A followed journey: how the arrival now compares with the plan.
+  function liveBanner(tracking) {
+    var change = tracking.arrival_change_minutes;
+    var headline = tracking.verdict === 'arrived' ? 'Planned arrival time has passed'
+      : tracking.verdict === 'later' ? 'Running ' + minutes(change) + ' later'
+      : tracking.verdict === 'earlier' ? minutes(-change) + ' earlier than planned'
+      : tracking.verdict === 'route_broken' ? 'Your route is not running as planned'
+      : tracking.verdict === 'on_plan' ? 'On plan' : 'Could not check the rest of the trip';
+    var detail = [];
+    if (tracking.expected_arrival && tracking.verdict !== 'arrived') detail.push('arrive ' + clock(tracking.expected_arrival));
+    if (tracking.phase === 'not_started') detail.push('not started yet');
+    var onward = tracking.tfl_suggests;
+    if (onward && onward.route) {
+      var lines = onward.route.legs.filter(function (leg) { return leg.mode !== 'walking'; }).map(legLabel).join(', then ');
+      detail.push('TfL suggests ' + (lines || 'walking') + ' from ' + tidy(onward.from) + (onward.saves_minutes ? ', ' + minutes(onward.saves_minutes) + ' sooner' : ', arriving ' + clock(onward.arrives)));
+    }
+    return el('div', { class: 'live' + (tracking.verdict === 'later' || tracking.verdict === 'unknown' || tracking.verdict === 'route_broken' ? ' later' : ''), role: 'status' },
+      el('strong', { text: headline }), el('span', { text: detail.join(' · ') }));
+  }
+
+  function legItem(leg, index, tracking) {
+    var walking = leg.mode === 'walking';
+    var colour = colourOf(leg);
+    var status = walking ? null : statusFor(leg);
+    var ride = el('div', { class: 'ride' });
+    ride.appendChild(walking ? el('span', { text: 'Walk' }) : el('span', { class: 'pill', style: colour ? '--c:' + colour : '', text: legLabel(leg) }));
+    ride.appendChild(el('span', { text: minutes(leg.duration_minutes) + (walking ? '' : ' to ' + tidy(leg.to)) }));
+    if (status) ride.appendChild(el('span', { class: 'badge' + (status.level === 'severe' ? ' bad' : ''), text: status.status }));
+    var place = '';
+    if (tracking && tracking.phase === 'arrived') place = ' done';
+    else if (tracking && tracking.current_leg) place = index + 1 < tracking.current_leg ? ' done' : index + 1 === tracking.current_leg ? ' now' : '';
+    return el('li', { class: 'leg' + (walking ? ' walk' : '') + place, style: colour && !walking ? '--c:' + colour : '' },
+      el('div', { class: 'time', text: clock(leg.departure) }),
+      el('div', { class: 'rail', 'aria-hidden': 'true' }),
+      el('div', { class: 'body' }, el('div', { class: 'stop', text: tidy(leg.from) }), ride));
+  }
+
+  function routeView(route, tracking) {
+    var nodes = [];
+    if (tracking) nodes.push(liveBanner(tracking));
+    var leaving = leavesIn(route.departure);
+    var facts = [minutes(route.duration_minutes), route.changes === 0 ? 'direct' : route.changes === 1 ? '1 change' : route.changes + ' changes'];
+    if (route.walking_minutes) facts.push(minutes(route.walking_minutes) + ' walking');
+    nodes.push(el('div', { class: 'summary' },
+      el('span', { class: 'clock' }, clock(route.departure), el('span', { class: 'to', text: '→' }), clock(route.arrival)),
+      el('span', { class: 'facts', text: facts.join(' · ') }),
+      el('span', { class: 'leaves', id: 'leaves', 'data-at': route.departure, text: leaving })));
+    if (route.disruptions && route.disruptions.length) {
+      var notice = el('div', { class: 'notice', role: 'note' });
+      route.disruptions.forEach(function (text) { notice.appendChild(el('p', { text: text })); });
+      nodes.push(notice);
+    }
+    var list = el('ol', { class: 'legs' });
+    route.legs.forEach(function (leg, index) { list.appendChild(legItem(leg, index, tracking)); });
+    var last = route.legs[route.legs.length - 1];
+    list.appendChild(el('li', { class: 'leg end' },
+      el('div', { class: 'time', text: clock(route.arrival) }),
+      el('div', { class: 'rail', 'aria-hidden': 'true' }),
+      el('div', { class: 'body' }, el('div', { class: 'stop', text: tidy(last.to) }))));
+    nodes.push(list);
+    return nodes;
+  }
+
+  function footer(data) {
+    var parts = ['TfL journey planner'];
+    var day = dayLabel(data.routes && data.routes[0] ? data.routes[0].departure : '');
+    if (day) parts.push(day);
+    if (data.checked_at) parts.push('checked ' + new Date(data.checked_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/London' }));
+    var filter = data.mode_filter;
+    if (data.built_from_legs || (data.tracking && data.leg_plan)) parts[0] = 'Your route, timed by TfL';
+    var versus = data.compared_with_tfl && data.compared_with_tfl.this_route_arrives_minutes_later;
+    if (versus > 0) parts.push(minutes(versus) + ' slower than TfL\u2019s pick');
+    if (filter && filter.excluded && filter.excluded.length) {
+      parts.push('no ' + filter.excluded.map(function (mode) { return (MODE_NAMES[mode] || mode).toLowerCase(); }).join(', '));
+    }
+    return el('div', { class: 'foot' },
+      el('span', { class: 'grow', text: parts.join(' · ') }),
+      state.canCall && (state.args || state.label || state.again) ? el('button', { class: 'button', type: 'button', disabled: state.busy, on: { click: function () { refresh(false); } } }, state.busy ? 'Refreshing…' : 'Refresh') : null);
+  }
+
+  function render() {
+    var data = state.data;
+    root.textContent = '';
+    if (!data) {
+      root.appendChild(el('p', { class: 'eyebrow', text: 'Journey' }));
+      root.appendChild(el('h1', { text: state.error || 'Planning the route…' }));
+      return;
+    }
+    header(data).forEach(function (node) { root.appendChild(node); });
+    if (state.error) root.appendChild(el('div', { class: 'notice bad', role: 'alert' }, el('p', { text: state.error })));
+    if (data.error) {
+      root.appendChild(el('div', { class: 'notice bad', role: 'alert' }, el('p', { text: data.error.message || 'The journey could not be planned.' })));
+    } else if (data.status === 'needs_disambiguation') {
+      root.appendChild(el('p', { class: 'quiet', text: 'More than one place matches. Tell Claude which you mean:' }));
+      ['from', 'to'].forEach(function (end) {
+        if (!data[end] || !data[end].options) return;
+        var list = el('ul', { class: 'options' });
+        data[end].options.forEach(function (option) { list.appendChild(el('li', { text: option.name })); });
+        root.appendChild(el('p', { class: 'quiet', text: end === 'from' ? 'Starting point' : 'Destination' }));
+        root.appendChild(list);
+      });
+    } else if (!data.routes || !data.routes.length) {
+      root.appendChild(el('p', { class: 'quiet', text: data.next_action || 'No route was found for this time.' }));
+    } else {
+      if (data.routes.length > 1) {
+        var tabs = el('div', { class: 'tabs', role: 'tablist', 'aria-label': 'Routes' });
+        data.routes.forEach(function (route, index) { tabs.appendChild(tab(route, index)); });
+        root.appendChild(tabs);
+      }
+      routeView(data.routes[state.selected], data.tracking || null).forEach(function (node) { root.appendChild(node); });
+    }
+    root.appendChild(footer(data));
+  }
+
+  function select(index) {
+    if (index === state.selected) return;
+    state.selected = index;
+    render();
+    var route = state.data.routes[index];
+    if (!state.canTellModel || !route) return;
+    var legs = route.legs.filter(function (leg) { return leg.mode !== 'walking'; }).map(legLabel).join(', then ');
+    request('ui/update-model-context', { content: [{ type: 'text', text: 'In the journey card the user is now looking at route ' + (index + 1) + ' of ' + state.data.routes.length + ': ' + clock(route.departure) + ' to ' + clock(route.arrival) + ', ' + route.duration_minutes + ' minutes' + (legs ? ', by ' + legs : '') + '.' }] }).catch(function () {});
+  }
+
+  function refresh(quiet) {
+    if (state.busy || !(state.args || state.label || state.again)) return;
+    state.busy = true;
+    state.error = null;
+    if (quiet !== true) render();
+    var call = state.label ? { name: 'follow_journey', arguments: { action: 'check', label: state.label } } : state.again || { name: 'show_journey', arguments: state.args };
+    request('tools/call', call).then(accept, function () {
+      if (quiet === true) { state.busy = false; return; }
+      state.busy = false;
+      state.error = 'Could not refresh. Ask Claude to plan it again.';
+      render();
+    });
+  }
+
+  // Countdown text ("Leave in 6 min") stays current while the card is open.
+  setInterval(function () {
+    var node = document.getElementById('leaves');
+    if (node) node.textContent = leavesIn(node.getAttribute('data-at'));
+  }, 20000);
+  // A followed journey checks itself every minute while the card is open, until its arrival time has passed.
+  setInterval(function () {
+    var tracking = state.data && state.data.tracking;
+    if (state.canCall && state.label && tracking && tracking.phase !== 'arrived' && !document.hidden) refresh(true);
+  }, 60000);
+
+  if (typeof ResizeObserver === 'function') {
+    var lastHeight = 0;
+    new ResizeObserver(function () {
+      var height = Math.ceil(document.documentElement.getBoundingClientRect().height);
+      if (height === lastHeight) return;
+      lastHeight = height;
+      notify('ui/notifications/size-changed', { height: height });
+    }).observe(document.documentElement);
+  }
+
+  request('ui/initialize', { appInfo: { name: 'london-transit-journey', version: '1.0.0' }, appCapabilities: {}, protocolVersion: PROTOCOL }).then(function (result) {
+    var capabilities = (result && result.hostCapabilities) || {};
+    state.canCall = Boolean(capabilities.serverTools);
+    state.canTellModel = Boolean(capabilities.updateModelContext);
+    applyContext(result && result.hostContext);
+    notify('ui/notifications/initialized', {});
+    if (state.data) render();
+  }, function () {});
+})();
+</script>
+</body>
+</html>

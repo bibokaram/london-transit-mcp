@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>London Transit</title>
+  <meta name="description" content="Live tube line status and next trains for your commute.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111214">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Tube">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icons/icon-180.png">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div id="pull-indicator" aria-hidden="true">Release to refresh</div>
+
+  <!-- Home: each saved station, its lines by direction -->
+  <main id="view-home" class="view" hidden>
+    <header class="bar">
+      <h1>Tube</h1>
+      <a class="text-button" href="#/settings">Settings</a>
+    </header>
+    <p class="error" role="status" hidden></p>
+
+    <section id="welcome" class="empty" hidden>
+      <h2>Set up your commute</h2>
+      <p class="muted">Add your stations, like home and work. They stay on this phone, so there's no account.</p>
+      <a class="primary-button" href="#/settings">Add your stations</a>
+    </section>
+
+    <div id="home-board"></div>
+
+    <a class="primary-button wide" href="#/explore">Check another station</a>
+    <p class="updated muted centered" aria-live="off"></p>
+  </main>
+
+  <!-- Every train for one line at one station -->
+  <main id="view-line" class="view" hidden>
+    <header class="bar">
+      <button class="text-button back" type="button" data-back>‹ Back</button>
+      <p class="updated muted" aria-live="off"></p>
+    </header>
+    <h1 class="line-title"><span class="line-bar"></span><span id="line-name"></span></h1>
+    <p id="line-station" class="muted"></p>
+    <p id="line-status" class="line-status"></p>
+    <p class="error" role="status" hidden></p>
+    <div id="line-bounds" class="segmented" role="tablist" aria-label="Direction"></div>
+    <ol id="line-trains" class="card-list trains"></ol>
+  </main>
+
+  <!-- Another station: search, near me, recent -->
+  <main id="view-explore" class="view" hidden>
+    <header class="bar">
+      <button class="text-button back" type="button" data-back>‹ Back</button>
+    </header>
+    <h1>Another station</h1>
+    <label class="visually-hidden" for="explore-search">Search for a station</label>
+    <input id="explore-search" class="search" type="search" placeholder="Search for a station" autocomplete="off" autocapitalize="words" enterkeyhint="search">
+    <button id="near-me" class="secondary-button wide" type="button">Stations near me</button>
+    <p id="explore-message" class="muted small" role="status"></p>
+    <ul id="explore-results" class="card-list"></ul>
+    <section id="recent-section" hidden>
+      <h2 class="section-label">Recent</h2>
+      <ul id="recent-list" class="card-list"></ul>
+    </section>
+  </main>
+
+  <!-- Any station: the same board as home -->
+  <main id="view-station" class="view" hidden>
+    <header class="bar">
+      <button class="text-button back" type="button" data-back>‹ Back</button>
+      <p class="updated muted" aria-live="off"></p>
+    </header>
+    <h1 id="station-title"></h1>
+    <button id="station-add" class="secondary-button wide" type="button" hidden>＋ Add to my stations</button>
+    <p id="station-saved" class="muted small station-saved" role="status"></p>
+    <p class="error" role="status" hidden></p>
+    <div id="station-board"></div>
+  </main>
+
+  <!-- Settings: home station and lines -->
+  <main id="view-settings" class="view" hidden>
+    <header class="bar">
+      <h1>Settings</h1>
+      <a class="text-button strong" href="#/">Done</a>
+    </header>
+
+    <section aria-labelledby="stations-label">
+      <h2 id="stations-label" class="section-label">Your stations</h2>
+      <p id="no-stations" class="muted small" hidden>No stations yet. Add home, work, or wherever you catch the tube.</p>
+      <div id="saved-stations"></div>
+    </section>
+
+    <section aria-labelledby="add-label">
+      <h2 id="add-label" class="section-label">Add a station</h2>
+      <label class="visually-hidden" for="stop-search">Search for a station</label>
+      <input id="stop-search" class="search" type="search" placeholder="Search for a station" autocomplete="off" autocapitalize="words" enterkeyhint="search">
+      <p id="search-message" class="muted small" role="status"></p>
+      <ul id="search-results" class="card-list"></ul>
+      <p class="muted small settings-hint">Untick a line to hide it at that station only.</p>
+    </section>
+
+    <p class="muted small">Powered by TfL Open Data. Contains OS data © Crown copyright and database rights 2016 and Geomni UK Map data © and database rights 2019.</p>
+  </main>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

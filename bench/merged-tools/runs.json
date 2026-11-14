@@ -1,0 +1,50 @@
+[
+ {
+  "session": "tm5c6s3",
+  "variant": "before",
+  "model": "opus",
+  "rep": 1
+ },
+ {
+  "session": "ts3bk9q",
+  "variant": "before",
+  "model": "opus",
+  "rep": 2
+ },
+ {
+  "session": "tnf2m3x",
+  "variant": "before",
+  "model": "sonnet",
+  "rep": 1
+ },
+ {
+  "session": "trsny47",
+  "variant": "before",
+  "model": "sonnet",
+  "rep": 2
+ },
+ {
+  "session": "tn6hhp6",
+  "variant": "merged",
+  "model": "opus",
+  "rep": 1
+ },
+ {
+  "session": "tavnjre",
+  "variant": "merged",
+  "model": "opus",
+  "rep": 2
+ },
+ {
+  "session": "tyfv5tv",
+  "variant": "merged",
+  "model": "sonnet",
+  "rep": 1
+ },
+ {
+  "session": "tcf2m4m",
+  "variant": "merged",
+  "model": "sonnet",
+  "rep": 2
+ }
+]

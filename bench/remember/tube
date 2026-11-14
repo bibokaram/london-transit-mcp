@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# tube <session> list                      -> the server's instructions and tool definitions
+# tube <session> call <tool> '<json args>' -> call a tool
+set -euo pipefail
+session="$1"; kind="$2"
+if [ "$kind" = "list" ]; then
+  body=$(python3 -c 'import json,sys; print(json.dumps({"session":sys.argv[1],"kind":"list"}))' "$session")
+else
+  body=$(python3 -c 'import json,sys; print(json.dumps({"session":sys.argv[1],"kind":"call","tool":sys.argv[2],"args":json.loads(sys.argv[3]) if len(sys.argv)>3 and sys.argv[3] else {}}))' "$session" "$3" "${4:-}") || { echo '{"isError":true,"error":"arguments are not valid JSON"}'; exit 0; }
+fi
+curl -sS --noproxy 127.0.0.1 -X POST -H 'Content-Type: application/json' -d "$body" http://127.0.0.1:4599/
+echo

@@ -1,0 +1,282 @@
+{
+ "s1-run1": {
+  "session": "hts22rqb",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s1",
+  "model": "sonnet"
+ },
+ "s1-run2": {
+  "session": "hjjfw8xb",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s1",
+  "model": "sonnet"
+ },
+ "s1-run3": {
+  "session": "hm4uxf9u",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s1",
+  "model": "haiku"
+ },
+ "s1-run4": {
+  "session": "hpjqj55b",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s1",
+  "model": "haiku"
+ },
+ "s1-run5": {
+  "session": "hp9z7dqr",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s1",
+  "model": "sonnet"
+ },
+ "s1-run6": {
+  "session": "hrg4jgsu",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s1",
+  "model": "haiku"
+ },
+ "s1-run7": {
+  "session": "hatruqt7",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s1",
+  "model": "sonnet"
+ },
+ "s1-run8": {
+  "session": "h4qjhsxw",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s1",
+  "model": "haiku"
+ },
+ "s2-run1": {
+  "session": "hs2ydybe",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s2",
+  "model": "haiku"
+ },
+ "s2-run2": {
+  "session": "hrsabz4h",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s2",
+  "model": "sonnet"
+ },
+ "s2-run3": {
+  "session": "hwebears",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s2",
+  "model": "sonnet"
+ },
+ "s2-run4": {
+  "session": "ht3mj8yn",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s2",
+  "model": "haiku"
+ },
+ "s2-run5": {
+  "session": "hbas3j5h",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s2",
+  "model": "sonnet"
+ },
+ "s2-run6": {
+  "session": "h6u47664",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s2",
+  "model": "haiku"
+ },
+ "s2-run7": {
+  "session": "hfrgtcg5",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s2",
+  "model": "haiku"
+ },
+ "s2-run8": {
+  "session": "hhp33u9m",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s2",
+  "model": "sonnet"
+ },
+ "s3-run1": {
+  "session": "hh7ryb8x",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s3",
+  "model": "haiku"
+ },
+ "s3-run2": {
+  "session": "he7j7346",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s3",
+  "model": "haiku"
+ },
+ "s3-run3": {
+  "session": "hcp5x4b2",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s3",
+  "model": "sonnet"
+ },
+ "s3-run4": {
+  "session": "hfrvtnut",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s3",
+  "model": "sonnet"
+ },
+ "s3-run5": {
+  "session": "h9tza67t",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s3",
+  "model": "haiku"
+ },
+ "s3-run6": {
+  "session": "hvtpw9wz",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s3",
+  "model": "sonnet"
+ },
+ "s3-run7": {
+  "session": "hnf5mq79",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s3",
+  "model": "haiku"
+ },
+ "s3-run8": {
+  "session": "hfc9vdqs",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s3",
+  "model": "sonnet"
+ },
+ "s4-run1": {
+  "session": "hda3mkty",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s4",
+  "model": "haiku"
+ },
+ "s4-run2": {
+  "session": "hvhvw8zp",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s4",
+  "model": "sonnet"
+ },
+ "s4-run3": {
+  "session": "hw69vv2q",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s4",
+  "model": "sonnet"
+ },
+ "s4-run4": {
+  "session": "hn9zanaf",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s4",
+  "model": "haiku"
+ },
+ "s4-run5": {
+  "session": "hn5jf7cm",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s4",
+  "model": "sonnet"
+ },
+ "s4-run6": {
+  "session": "hvhju2gd",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s4",
+  "model": "haiku"
+ },
+ "s4-run7": {
+  "session": "hbm433m2",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s4",
+  "model": "sonnet"
+ },
+ "s4-run8": {
+  "session": "hn8xurdf",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s4",
+  "model": "haiku"
+ },
+ "s5-run1": {
+  "session": "hfyx7hxk",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s5",
+  "model": "sonnet"
+ },
+ "s5-run2": {
+  "session": "hnfz5yqm",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s5",
+  "model": "sonnet"
+ },
+ "s5-run3": {
+  "session": "huks9vd9",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s5",
+  "model": "sonnet"
+ },
+ "s5-run4": {
+  "session": "hzxhj9af",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s5",
+  "model": "haiku"
+ },
+ "s5-run5": {
+  "session": "h8x9cn34",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s5",
+  "model": "haiku"
+ },
+ "s5-run6": {
+  "session": "h2jvkh8d",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s5",
+  "model": "sonnet"
+ },
+ "s5-run7": {
+  "session": "hzmnr2v4",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s5",
+  "model": "haiku"
+ },
+ "s5-run8": {
+  "session": "hm3xg4x4",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s5",
+  "model": "haiku"
+ }
+}

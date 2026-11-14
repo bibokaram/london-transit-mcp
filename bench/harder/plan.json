@@ -1,0 +1,282 @@
+[
+ {
+  "session": "hatruqt7",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s1",
+  "model": "sonnet"
+ },
+ {
+  "session": "hpjqj55b",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s1",
+  "model": "haiku"
+ },
+ {
+  "session": "hjjfw8xb",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s1",
+  "model": "sonnet"
+ },
+ {
+  "session": "hrg4jgsu",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s1",
+  "model": "haiku"
+ },
+ {
+  "session": "hts22rqb",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s1",
+  "model": "sonnet"
+ },
+ {
+  "session": "h4qjhsxw",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s1",
+  "model": "haiku"
+ },
+ {
+  "session": "hp9z7dqr",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s1",
+  "model": "sonnet"
+ },
+ {
+  "session": "hm4uxf9u",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s1",
+  "model": "haiku"
+ },
+ {
+  "session": "hhp33u9m",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s2",
+  "model": "sonnet"
+ },
+ {
+  "session": "h6u47664",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s2",
+  "model": "haiku"
+ },
+ {
+  "session": "hwebears",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s2",
+  "model": "sonnet"
+ },
+ {
+  "session": "ht3mj8yn",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s2",
+  "model": "haiku"
+ },
+ {
+  "session": "hrsabz4h",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s2",
+  "model": "sonnet"
+ },
+ {
+  "session": "hfrgtcg5",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s2",
+  "model": "haiku"
+ },
+ {
+  "session": "hbas3j5h",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s2",
+  "model": "sonnet"
+ },
+ {
+  "session": "hs2ydybe",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s2",
+  "model": "haiku"
+ },
+ {
+  "session": "hfrvtnut",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s3",
+  "model": "sonnet"
+ },
+ {
+  "session": "he7j7346",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s3",
+  "model": "haiku"
+ },
+ {
+  "session": "hfc9vdqs",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s3",
+  "model": "sonnet"
+ },
+ {
+  "session": "hh7ryb8x",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s3",
+  "model": "haiku"
+ },
+ {
+  "session": "hvtpw9wz",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s3",
+  "model": "sonnet"
+ },
+ {
+  "session": "h9tza67t",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s3",
+  "model": "haiku"
+ },
+ {
+  "session": "hcp5x4b2",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s3",
+  "model": "sonnet"
+ },
+ {
+  "session": "hnf5mq79",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s3",
+  "model": "haiku"
+ },
+ {
+  "session": "hvhvw8zp",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s4",
+  "model": "sonnet"
+ },
+ {
+  "session": "hvhju2gd",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s4",
+  "model": "haiku"
+ },
+ {
+  "session": "hw69vv2q",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s4",
+  "model": "sonnet"
+ },
+ {
+  "session": "hn9zanaf",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s4",
+  "model": "haiku"
+ },
+ {
+  "session": "hn5jf7cm",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s4",
+  "model": "sonnet"
+ },
+ {
+  "session": "hn8xurdf",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s4",
+  "model": "haiku"
+ },
+ {
+  "session": "hbm433m2",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s4",
+  "model": "sonnet"
+ },
+ {
+  "session": "hda3mkty",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s4",
+  "model": "haiku"
+ },
+ {
+  "session": "huks9vd9",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s5",
+  "model": "sonnet"
+ },
+ {
+  "session": "hzxhj9af",
+  "shape": "before",
+  "manual": true,
+  "scenario": "s5",
+  "model": "haiku"
+ },
+ {
+  "session": "hnfz5yqm",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s5",
+  "model": "sonnet"
+ },
+ {
+  "session": "h8x9cn34",
+  "shape": "before",
+  "manual": false,
+  "scenario": "s5",
+  "model": "haiku"
+ },
+ {
+  "session": "h2jvkh8d",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s5",
+  "model": "sonnet"
+ },
+ {
+  "session": "hm3xg4x4",
+  "shape": "merged",
+  "manual": true,
+  "scenario": "s5",
+  "model": "haiku"
+ },
+ {
+  "session": "hfyx7hxk",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s5",
+  "model": "sonnet"
+ },
+ {
+  "session": "hzmnr2v4",
+  "shape": "merged",
+  "manual": false,
+  "scenario": "s5",
+  "model": "haiku"
+ }
+]

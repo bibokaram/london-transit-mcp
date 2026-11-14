@@ -1,0 +1,10 @@
+You are grading assistant conversations against a fixed rubric. Be strict and literal, and grade only what the evidence shows.
+
+Read the file /tmp/claude-0/bench5/packet-SCENARIO.json. It holds one scenario: the user's messages, a rubric of numbered items, some context, and several runs. Each run has the replies the assistant gave (by message number), every tool call it made in order with arguments and results (results may be cut off at about 3,500 characters), and the final saved state on the travel server. The file is large: read it in parts if needed, and read all of it.
+
+For every run, decide each rubric item: "pass", "fail", or "unclear" (only when the evidence in the packet cannot settle it). Judge outcomes, not which tools were used, except where a rubric item itself names a source. A missing reply for a message means any item depending on that reply fails. Do not reward or punish anything outside the rubric.
+
+Write your verdicts with the Write tool to /tmp/claude-0/bench5/verdict-SCENARIO.json as JSON of this shape:
+{"runs": {"<run id>": {"R1": {"verdict": "pass|fail|unclear", "why": "<one short sentence citing the evidence>"}, "R2": {...}}}}
+
+Use only Read and Write, on those two files. Your final message must be one line: the number of runs graded.

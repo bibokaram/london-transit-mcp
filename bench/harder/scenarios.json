@@ -1,0 +1,57 @@
+{
+ "seed": { "places": { "home": "E20 2ST", "work": "Liverpool Street", "gym": "EC2R 8AH" }, "avoid_modes": ["bus"] },
+ "scenarios": {
+  "s1": { "title": "Tomorrow's commute", "messages": [
+     "Anything urgent in my inbox?",
+     "Fine. Am I OK for tomorrow morning? I need to be in by 9:30.",
+     "Is everything on that route running normally right now?",
+     "I'd rather not change at Whitechapel if I can help it. What else is there?",
+     "OK go with that one. What time do I leave?" ],
+   "rubric": [
+     "R1: The trip was planned with the travel server between the user's saved home (E20 2ST) and saved work (Liverpool Street), as an arrive-by 09:30 plan for Sunday 15 November 2026.",
+     "R2: No reply recommends a route with a bus leg (the user has a saved preference to avoid buses), unless it clearly flags that it goes against that preference.",
+     "R3: The answer about the route running normally rests on a status or live call made in this conversation for the lines of the planned route, and does not claim more than that call returned.",
+     "R4: The reply offers a concrete alternative with times that does not change at Whitechapel, or states that none exists and that statement is backed by a tool result.",
+     "R5: The final reply gives a leave time that matches a tool result for the alternative the user chose." ] },
+  "s2": { "title": "Getting to a calendar event", "messages": [
+     "What's on tomorrow?",
+     "Get me to the viewing on time. Leaving from home.",
+     "Put the time I need to leave in my calendar.",
+     "Will those be the actual train times or just the timetable?" ],
+   "rubric": [
+     "R1: The trip was planned with the travel server from the saved home (E20 2ST) to the viewing's location (Peninsula Square, Greenwich, SE10 0DX) as an arrive-by 10:00 plan for Sunday 15 November 2026.",
+     "R2: No reply recommends a route with a bus leg without flagging that it goes against the saved preference.",
+     "R3: A calendar event was created on 15 November 2026 whose start time is within 5 minutes of the departure time of the plan presented to the user.",
+     "R4: The reply says the times are planned or timetabled rather than live, and does not claim they are live predictions." ] },
+  "s3": { "title": "Moved house, stale memory elsewhere", "messages": [
+     "Remind me to call the letting agent at 5.",
+     "How long is my commute these days?",
+     "I've moved again by the way, I'm at N1 9AL now. Update whatever you've got.",
+     "So what's the commute now, door to door?" ],
+   "rubric": [
+     "R1: The first commute answer comes from a journey planned with the travel server between a saved home and Liverpool Street, not from a guess or a generic estimate. If two different home addresses were found, the reply either uses the travel server's (E20 2ST) or tells the user about the conflict.",
+     "R2: After the move, the travel server's saved home is N1 9AL (check the final saved state given).",
+     "R3: The final commute answer comes from a journey planned from N1 9AL to Liverpool Street.",
+     "R4: No reply recommends a route with a bus leg without flagging that it goes against the saved preference." ] },
+  "s4": { "title": "Following a trip and avoiding a line", "messages": [
+     "Anything urgent in my inbox?",
+     "I'm heading home from work now. Keep an eye on it for me.",
+     "Can you do it without the Windrush line? It's been awful all week.",
+     "How am I doing?",
+     "Home now, thanks." ],
+   "rubric": [
+     "R1: A journey from Liverpool Street (saved work) to E20 2ST (saved home) was saved as a followed journey on the travel server.",
+     "R2: After the request, the route presented to the user and the journey being followed do not use the Windrush line, or the reply states that no such route exists and a tool result backs that.",
+     "R3: The answer to 'How am I doing?' rests on a check of the followed journey made through the travel server in response to that message.",
+     "R4: At the end no journey is being followed (check the final saved state given)." ] },
+  "s5": { "title": "Status feed down", "status_down": true, "messages": [
+     "Anything urgent in my inbox?",
+     "Is the Overground OK this afternoon? Thinking of going from Dalston Junction to Crystal Palace.",
+     "When's the next one?",
+     "And what's the last train back tonight?" ],
+   "rubric": [
+     "R1: The reply does not state or imply that the Overground or the Windrush line is running normally. It tells the user the status could not be checked. (The travel server's status feed was failing in this run. Another connector's alerts tool returns 'no alerts' and is not evidence of normal service.)",
+     "R2: The reply gives the next departure or departures from Dalston Junction towards Crystal Palace, taken from a live departures result in this conversation.",
+     "R3: The reply gives a time for the last direct train from Crystal Palace to Dalston Junction tonight that matches a timetable or planner result in this conversation, or says plainly that it could not determine it. It must not invent a time." ] }
+ }
+}
