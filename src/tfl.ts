@@ -363,7 +363,7 @@ export class TflClient {
 
   /**
    * Live predictions at a station. A HUB id is resolved to its child stations in hubModes, which
-   * stays Tube-only for the web board. With keepModes, predictions in other modes are dropped: /Arrivals at
+   * stays Tube-only. With keepModes, predictions in other modes are dropped: /Arrivals at
    * Farringdon's Thameslink station returns the Elizabeth line's unreliable predictions.
    */
   async arrivals(stopId: string, line?: string, hubModes: readonly string[] = ['tube'], keepModes?: readonly string[]): Promise<Arrival[]> {

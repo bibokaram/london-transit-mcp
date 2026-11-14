@@ -2,12 +2,11 @@
 
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 
-London public transport for AI assistants, plus a departure-board web app, in one small Node server you host yourself.
+London public transport for AI assistants, in one small Node server you host yourself.
 
-- **An MCP server** at `/mcp` that gives Claude, ChatGPT or any MCP client journey planning, timetables, live departures and
-  disruption for the Tube, Elizabeth line, Overground, DLR, tram, buses, river buses and National Rail. It remembers your
-  places and the modes you avoid, follows a journey while you travel, and lets the model change one leg of a route.
-- **A home-screen web app** that shows your saved Tube stations as a departure board.
+It is an MCP server at `/mcp` that gives Claude, ChatGPT or any MCP client journey planning, timetables, live departures and
+disruption for the Tube, Elizabeth line, Overground, DLR, tram, buses, river buses and National Rail. It remembers your
+places and the modes you avoid, follows a journey while you travel, and lets the model change one leg of a route.
 
 It reads the [TfL Unified API](https://api.tfl.gov.uk) and, optionally, [Realtime Trains](https://www.realtimetrains.co.uk).
 It is single-owner: one deployment serves one person, with no accounts and no database. This is an independent project, not
@@ -40,7 +39,7 @@ export MCP_SECRET=$(openssl rand -hex 32)   # enables /mcp; you type this at the
 npm run dev
 ```
 
-The web app is at http://localhost:3000 and the MCP endpoint at http://localhost:3000/mcp. Without `TFL_APP_KEY`, TfL requests
+The MCP endpoint is at http://localhost:3000/mcp. Without `TFL_APP_KEY`, TfL requests
 are keyless and rate limited, which is enough to try it. The server reads environment variables from the process; it does not
 load `.env` files.
 
@@ -48,7 +47,7 @@ load `.env` files.
 
 | Variable | Needed | Effect |
 | --- | --- | --- |
-| `TFL_APP_KEY` | Recommended | TfL API key from https://api-portal.tfl.gov.uk (the "500 Requests per min" product). Never sent to the browser |
+| `TFL_APP_KEY` | Recommended | TfL API key from https://api-portal.tfl.gov.uk (the "500 Requests per min" product). Stays on the server |
 | `MCP_SECRET` | For MCP | Enables `/mcp` and is the secret typed at the OAuth login: at least 32 random characters (`openssl rand -hex 32`). Unset or too short, `/mcp` returns 404 |
 | `PUBLIC_URL` | Off Railway | The public origin, e.g. `https://tube.example.com`, used in OAuth URLs. On Railway it is read from `RAILWAY_PUBLIC_DOMAIN` |
 | `RTT_TOKEN` | Optional | Realtime Trains API token from https://api-portal.rtt.io: live departures for every National Rail operator, `calling_at` and `train_service` |
@@ -57,8 +56,7 @@ load `.env` files.
 
 ## Deploy
 
-Any host that runs Node 22 and gives you HTTPS works: `npm ci && npm run build && npm start`. There is no build step for the
-web app or the journey card.
+Any host that runs Node 22 and gives you HTTPS works: `npm ci && npm run build && npm start`. The journey card needs no build step.
 
 On Railway: create a service from your fork, set the variables above, add a volume and point `DATA_DIR` at its mount path
 (for example `/data`). Pushes to the deployed branch redeploy.
@@ -70,8 +68,6 @@ On Railway: create a service from your fork, set the variables above, add a volu
 3. Ask it to call `get_context`. It lists what is saved and, under `owner_setup_pending`, any optional setting still unset.
 
 A conversation opened before a deploy keeps the tool list it started with; start a new one to see new tools.
-
-To put the web app on an iPhone, open the URL in Safari, tap Share, then Add to Home Screen.
 
 ## Data sources and their terms
 
@@ -92,7 +88,7 @@ Times are forecasts and timetables, not guarantees. Do not rely on this for anyt
 ## Develop
 
 ```bash
-npm test          # 300 tests, no network: TfL responses are replayed from test/fixtures
+npm test          # 164 tests, no network: TfL responses are replayed from test/fixtures
 npm run typecheck
 npm run build
 ```
@@ -107,30 +103,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
 
 # Reference
 
-## Web app API
-
-| Endpoint | Returns |
-| --- | --- |
-| `GET /api/status?lines=victoria,northern` | Status, severity level and reason per line |
-| `GET /api/arrivals?stop=<id>&line=<optional>` | Every train soonest first, with direction, platform, clock time and current location |
-| `GET /api/station?stop=<id>` | A station's name and its tube lines |
-| `GET /api/nearby?lat=<lat>&lon=<lon>` | Up to 8 tube stations within 1.5 km, nearest first |
-| `GET /api/search?q=<name>` | Matching tube and bus stops |
-
-Home shows up to 5 saved stations: each station's lines with their status and the next 3 trains in each direction; Settings
-can hide a line at one station. Each person's choices stay in their browser.
-Live TfL responses are cached in memory for 30 seconds; station details and nearby lookups for a day.
-Arrivals leave out trains that end their journey at the station, since nobody can board them there.
-
-TfL search returns `HUB...` ids for interchanges such as King's Cross, and its arrivals endpoint returns
-nothing for those. The server resolves a hub to its tube stations and merges their arrivals.
-
 ## MCP server
 
-The same server exposes a Streamable HTTP MCP endpoint at `/mcp`, protected by OAuth 2.1. Every tool is read-only except
+The server exposes a Streamable HTTP MCP endpoint at `/mcp`, protected by OAuth 2.1. Every tool is read-only except
 the three that store something for the owner: `remember`, `follow_journey` and `change_journey`.
-It is disabled (404) when `MCP_SECRET` is unset. The public web app and its existing API are unchanged.
-The MCP server uses the existing server-side `TFL_APP_KEY` and shares the app's TfL caches and departure-board corrections.
+It is disabled (404) when `MCP_SECRET` is unset.
+TfL responses are cached in memory for 30 seconds; station details for a day.
 
 | Tool | Purpose |
 | --- | --- |
@@ -301,7 +279,7 @@ Coverage by tool:
   `thameslink`) **or the cable car**. A station with such operators (London Bridge, Clapham Junction) gets a `coverage_note`
   naming them, a National Rail-only station says so instead of returning an empty board, and a cable car station points to
   `timetable`.
-- Tube, DLR and tram come from TfL `/Arrivals` with the web board's corrections; DLR/tram copies of one train on both
+- Tube, DLR and tram come from TfL `/Arrivals` with corrections for trains TfL lists wrongly; DLR/tram copies of one train on both
   faces of a platform pair are merged, and other modes' predictions are dropped (`/Arrivals` at Farringdon's Thameslink
   station returns Elizabeth line guesses). Elizabeth line, Overground and Thameslink come from `/ArrivalDepartures`, one
   request per line the station itself serves, because `/Arrivals` invents trains at their starting stations. Those entries
@@ -316,8 +294,6 @@ Coverage by tool:
   shows its rail lines and piers, and adds bus stops only when `line` names one of its bus routes.
 
 `line_status` is not a future planned-closure calendar; future journey planning can include planned-work evidence.
-The web app's own board and API stay Tube-only.
-The tools cannot read anyone's browser-local saved stations, home address or office address.
 
 ### Login and security
 
